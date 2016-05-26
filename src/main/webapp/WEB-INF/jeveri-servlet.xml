@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd ">
+
+	<import resource="classpath:applicationContext.xml" />
+	<import resource="classpath:applicationContext-cache.xml" />
+	<import resource="classpath:applicationContext-mail.xml" />
+	<import resource="classpath:applicationContext-message.xml" />
+
+	<bean class="me.voler.jeveri.core.CustomPropertyPlaceholderConfigurer">
+		<property name="propFiles">
+			<list>
+				<value>${env}/cache.properties</value>
+				<value>${env}/sender.properties</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

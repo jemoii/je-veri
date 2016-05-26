@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+    	http://www.springframework.org/schema/context  
+    	http://www.springframework.org/schema/context/spring-context.xsd
+    	http://www.springframework.org/schema/cache
+    	http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">
+		<property name="cacheManagers">
+			<list>
+				<ref bean="simpleCacheManager" />
+			</list>
+		</property>
+		<property name="fallbackToNoOpCache" value="true" />
+	</bean>
+
+	<bean id="simpleCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+		<property name="caches">
+			<set>
+				<bean class="me.voler.jeveri.util.cache.CustomRedisCache">
+					<property name="name" value="default" />
+					<property name="redisTemplate" ref="redisTemplate" />
+				</bean>
+			</set>
+		</property>
+	</bean>
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory">
+			<bean
+				class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+				<property name="poolConfig" ref="jedisPoolConfig" />
+				<property name="hostName" value="${me.cache.hostname}" />
+				<property name="port" value="${me.cache.port}" />
+				<property name="password" value="${me.cache.password}" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- redis连接池参数配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="1000" />
+		<property name="maxIdle" value="10" />
+		<property name="minIdle" value="1" />
+		<property name="maxWaitMillis" value="30000" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="true" />
+		<property name="testWhileIdle" value="true" />
+	</bean>
+
+</beans>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/context  
+    	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="taobaoClient" class="com.taobao.api.DefaultTaobaoClient">
+		<constructor-arg name="serverUrl" value="${me.message.client.serverurl}" />
+		<constructor-arg name="appKey" value="${me.message.client.appkey}" />
+		<constructor-arg name="appSecret" value="${me.message.client.appsecret}" />
+	</bean>
+
+	<bean id="messageTemplate" class="me.voler.jeveri.util.message.MessageTemplate">
+		<property name="taobaoClient" ref="taobaoClient" />
+	</bean>
+
+</beans>
