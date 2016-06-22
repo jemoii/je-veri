@@ -14,16 +14,16 @@ public class CustomEmail implements Serializable {
 	private String to;
 	private String remark;
 
-	public String getSubject() {
-		return String.format(SUBJECT_TEMPLATE, type);
+	public String getType() {
+		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	public String getContent() {
-		return String.format(CONTENT_CONTENT, type, token, token);
+	public String getToken() {
+		return token;
 	}
 
 	public void setToken(String token) {
@@ -44,6 +44,14 @@ public class CustomEmail implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getSubject() {
+		return String.format(SUBJECT_TEMPLATE, type);
+	}
+
+	public String getContent() {
+		return String.format(CONTENT_CONTENT, type, token, token);
 	}
 
 }
